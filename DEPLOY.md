@@ -17,9 +17,10 @@ Things to know about free tiers:
 Open your project in the Aiven console. For each service, open **Overview → Connection information**.
 
 **MySQL**
-- `DB_URL` = `jdbc:mysql://<Host>:<Port>/defaultdb?sslMode=REQUIRED`
-- `DB_USERNAME` = `avnadmin`
-- `DB_PASSWORD` = the service password
+- `DB_URL` = the **Service URI** exactly as Aiven shows it (`mysql://avnadmin:…@<Host>:<Port>/defaultdb?ssl-mode=REQUIRED`).
+  The app converts it to a JDBC URL and takes the user and password from it.
+  A `jdbc:mysql://<Host>:<Port>/defaultdb?sslMode=REQUIRED` URL also works.
+- `DB_USERNAME` / `DB_PASSWORD` = only needed with the `jdbc:` form (`avnadmin` and the service password)
 
 **Valkey (Redis)**
 - `REDIS_URL` = the **Service URI**. It starts with `rediss://` (two s's, meaning TLS).
