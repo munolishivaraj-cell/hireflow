@@ -1,0 +1,48 @@
+# Profile for the free Render + Aiven demo deployment. Every secret comes from an environment variable;
+# nothing here is a real credential. See DEPLOY.md for where each value comes from in the Aiven console.
+
+spring:
+  datasource:
+    # jdbc:mysql://<host>:<port>/defaultdb?sslMode=REQUIRED  (Aiven MySQL only accepts TLS connections)
+    url: ${DB_URL}
+    username: ${DB_USERNAME:avnadmin}
+    password: ${DB_PASSWORD}
+    hikari:
+      # The free MySQL plan has a small connection limit and Render free has 0.1 CPU
+      maximum-pool-size: 3
+      minimum-idle: 1
+
+  data:
+    redis:
+      # rediss://default:<password>@<host>:<port>  (the double "s" turns on TLS)
+      url: ${REDIS_URL}
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    security:
+      protocol: SASL_SSL
+    ssl:
+      # Aiven signs broker certificates with its own project CA, so the client must trust it.
+      # Paste the full PEM text (including the BEGIN/END lines) into KAFKA_CA_CERT.
+      trust-store-type: PEM
+      trust-store-certificates: ${KAFKA_CA_CERT}
+    properties:
+      sasl.mechanism: SCRAM-SHA-256
+      sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${KAFKA_USERNAME:avnadmin}" password="${KAFKA_PASSWORD:}";
+    admin:
+      # Topics are created in the Aiven console (the free plan allows at most 2 partitions per topic)
+      auto-create: false
+
+server:
+  tomcat:
+    threads:
+      max: 20
+
+management:
+  endpoint:
+    health:
+      show-details: never
+
+logging:
+  level:
+    org.apache.kafka: WARN

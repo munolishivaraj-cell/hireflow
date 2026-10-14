@@ -1,0 +1,12 @@
+# Use together with the "aiven" profile (SPRING_PROFILES_ACTIVE=aiven,aiven-cert) when the Aiven Kafka
+# service only offers client-certificate authentication instead of SASL.
+
+spring:
+  kafka:
+    security:
+      protocol: SSL
+    ssl:
+      key-store-type: PEM
+      # "Access certificate" and "Access key" from the Kafka service's connection information
+      key-store-certificate-chain: ${KAFKA_ACCESS_CERT}
+      key-store-key: ${KAFKA_ACCESS_KEY}

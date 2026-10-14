@@ -29,15 +29,30 @@ and candidate notifications, and **Redis** handles caching and per-candidate rat
 
 ## Run it
 
+The whole stack (MySQL, Redis, Kafka and the app with demo data) runs in Docker with the same
+512 MB memory limit as the free cloud instance:
+
 ```bash
-docker compose up -d
+docker compose --profile app up -d --build
+```
+
+Then open http://localhost:8080 (it redirects to Swagger UI).
+
+To run the app from your IDE or Maven instead, start only the infrastructure. The default datasource
+is `localhost:3306/hireflow` with user/password `hireflow`; override them with `DB_URL`, `DB_USERNAME`
+and `DB_PASSWORD`. The Docker MySQL listens on host port 3307.
+
+```bash
+docker compose up -d redis kafka
 ```
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-On Windows use `mvnw.cmd`. Then open http://localhost:8080/swagger-ui.html.
+On Windows use `mvnw.cmd`.
+
+**Free cloud deployment (Render + Aiven):** see [DEPLOY.md](DEPLOY.md).
 
 Try the flow:
 

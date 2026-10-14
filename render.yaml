@@ -1,0 +1,30 @@
+# Render Blueprint: free Docker web service. Secrets are marked sync: false, so Render asks for them
+# when the Blueprint is created and they are never stored in this repository.
+services:
+  - type: web
+    name: hireflow
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /actuator/health/liveness
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: aiven,demo
+      - key: KAFKA_PARTITIONS
+        value: "2"
+      - key: DB_URL
+        sync: false
+      - key: DB_USERNAME
+        value: avnadmin
+      - key: DB_PASSWORD
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: KAFKA_BOOTSTRAP_SERVERS
+        sync: false
+      - key: KAFKA_USERNAME
+        value: avnadmin
+      - key: KAFKA_PASSWORD
+        sync: false
+      - key: KAFKA_CA_CERT
+        sync: false

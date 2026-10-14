@@ -44,7 +44,12 @@ spring:
         spring.json.trusted.packages: com.shivaraj.hireflow.event
         spring.json.value.default.type: com.shivaraj.hireflow.event.HiringEvent
 
+server:
+  port: ${PORT:8080}   # Render injects PORT
+
 hireflow:
+  kafka:
+    partitions: ${KAFKA_PARTITIONS:3}
   apply-limit:
     max: ${APPLY_LIMIT_MAX:5}
     window: ${APPLY_LIMIT_WINDOW:1h}
@@ -57,6 +62,8 @@ management:
   endpoint:
     health:
       show-details: always
+      probes:
+        enabled: true   # /actuator/health/liveness for the Render health check
 
 springdoc:
   swagger-ui:
