@@ -72,7 +72,7 @@ If HireFlow is the root of its own repository, `render.yaml` sets all of this up
 **New → Blueprint**. Render still asks you for each secret.
 
 Click **Deploy**. The first build takes a few minutes. When the log shows `Started HireFlowApplication`,
-open `https://<your-service>.onrender.com`. It redirects to the Swagger UI.
+open `https://<your-service>.onrender.com` for the demo dashboard; the API docs are at `/swagger-ui.html`.
 
 ## 4. Check it works
 

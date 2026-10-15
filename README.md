@@ -1,5 +1,7 @@
 # HireFlow – Recruitment / Applicant Tracking Service
 
+**Live demo:** https://hireflow-ip7p.onrender.com (free instance: the first visit may take up to 2 minutes to wake it).
+
 A Spring Boot 4 (Java 17) backend where recruiters post jobs, candidates apply, and applications move
 through a hiring pipeline. **MySQL** is the system of record, **Kafka** drives asynchronous screening
 and candidate notifications, and **Redis** handles caching and per-candidate rate limiting.
@@ -36,7 +38,7 @@ The whole stack (MySQL, Redis, Kafka and the app with demo data) runs in Docker 
 docker compose --profile app up -d --build
 ```
 
-Then open http://localhost:8080 (it redirects to Swagger UI).
+Then open http://localhost:8080 for the demo dashboard (API docs at `/swagger-ui.html`).
 
 To run the app from your IDE or Maven instead, start only the infrastructure. The default datasource
 is `localhost:3306/hireflow` with user/password `hireflow`; override them with `DB_URL`, `DB_USERNAME`
