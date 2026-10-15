@@ -333,7 +333,11 @@
         <div class="chips">${j.skills.map((s) => `<span class="chip">${esc(s)}</span>`).join('')}</div>
       </li>`).join('') : '<li class="empty">No open jobs yet</li>';
     $('fJob').innerHTML = jobs.map((j) => `<option value="${j.id}">${esc(j.title)} (${esc(j.location)})</option>`).join('');
-    if (jobs.length) selectJob(selectedJob ? selectedJob.id : jobs[0].id);
+    // Open on the job that best fits the form's default skills, so a first click shows a strong match
+    const defaults = $('fSkills').value.split(',').map((s) => s.trim().toLowerCase());
+    const fit = (j) => j.skills.filter((s) => defaults.includes(s)).length;
+    const best = jobs.reduce((a, b) => (fit(b) > fit(a) ? b : a), jobs[0]);
+    if (jobs.length) selectJob(selectedJob ? selectedJob.id : best.id);
   }
 
   $('jobs').addEventListener('click', (e) => {
@@ -407,7 +411,7 @@
   function setStep(key, state, detail) {
     const li = document.querySelector(`#steps li[data-k="${key}"]`);
     li.className = state;
-    li.querySelector('.dot').textContent = state === 'done' ? '✓' : state === 'fail' ? '!' : li.dataset.n;
+    li.querySelector('.dot').textContent = state === 'done' ? '✓' : state === 'fail' ? '!' : state === 'run' ? '' : li.dataset.n;
     if (detail !== undefined) li.querySelector('small').textContent = detail;
   }
 
